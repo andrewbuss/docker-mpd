@@ -1,28 +1,24 @@
-# narf-mpd
+# mpd-pulseaudio
 
 Docker image for running [MPD](http://www.musicpd.org/doc/user/) on music
-mounted from a host directory.
+mounted from a host directory, and streaming to a PulseAudio server
 
 ### Assumptions
 
 * You have music you'd like to serve with mpd available in a directory on your
   Docker host.
+* You want to stream the audio to a PulseAudio server on the network
 
 ### Usage
 
-MPD is configured to look in the `/opt/music` directory on the container for
-music to serve.  You must mount your host directory on `/opt/music`
+MPD is configured to look in the `/music` directory on the container for
+music to serve.  You must mount your host directory on `/music`
 
-To do so, run like:
+MPD will also save its data to `/mpd`, which may optionally be mounted
 
-`docker run -v /mnt/music:/opt/music -p 6600:6600 -p 8000:8000 -t narf/mpd`
+Suggested use:
 
-...where `/mnt/music` is wherever you have music available on your host.
+`docker run -de PULSE_SERVER=<server IP> -v /mnt/music:/opt/music:ro -p 6600:6600 -t andrewbuss/mpd-pulseaudio`
 
-Since we've forwarded ports above, you'll be able to connect to MPD's web
-interface on your host at port 8000, and connect to MPD on your host at port
-6600.
+...where `/mnt/music` is wherever you have music available on your host
 
-MPD is configured to leave playlist, db, and state files in the `.mpd` directory
-on your host directory.  In our example, it would leave files in
-`/mnt/music/.mpd`.
