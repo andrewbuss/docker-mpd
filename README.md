@@ -17,8 +17,8 @@ music to serve.  You must mount your host directory on `/music`
 MPD will also save its data to `/mpd`, which may optionally be mounted
 
 Suggested use:
-
-`docker run -de PULSE_SERVER=<server IP> -v /mnt/music:/opt/music:ro -p 6600:6600 -t andrewbuss/mpd-pulseaudio`
-
-...where `/mnt/music` is wherever you have music available on your host
+```
+docker run -dte PULSE_SERVER=<server IP> -p 6600:6600 -v /mnt/music:/music:ro \
+           			     	    	      -v /mnt/music/.mpd:/mpd 
+```
 
